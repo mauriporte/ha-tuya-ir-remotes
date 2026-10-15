@@ -3,12 +3,14 @@ import hashlib
 import hmac
 import importlib.util
 import pathlib
+import sys
 
 # Load api.py directly: importing the package would pull in Home Assistant.
 _spec = importlib.util.spec_from_file_location(
     "tuya_ir_api", pathlib.Path(__file__).parents[1] / "custom_components" / "tuya_ir_remotes" / "api.py"
 )
 api = importlib.util.module_from_spec(_spec)
+sys.modules[_spec.name] = api  # @dataclass looks the module up in sys.modules
 _spec.loader.exec_module(api)
 
 
@@ -40,10 +42,6 @@ class _Session:
 
     def request(self, *a, **k):
         return _Resp(self.replies.pop(0))
-
-
-def _run(client, coro):
-    return asyncio.run(coro)
 
 
 def test_trial_expired_is_recognised():
