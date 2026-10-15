@@ -1,0 +1,14 @@
+{
+  "domain": "tuya_ir_remotes",
+  "name": "Tuya IR Remotes",
+  "codeowners": [
+    "@mauriporte"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/mauriporte/ha-tuya-ir-remotes",
+  "integration_type": "hub",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/mauriporte/ha-tuya-ir-remotes/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

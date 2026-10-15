@@ -1,0 +1,45 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Tuya IR Remotes",
+        "description": "Access ID and Access Secret of a cloud project on platform.tuya.com with the IR Control Hub Open Service authorized and your Smart Life / Tuya app account linked. Data center: the one chosen for that project (eu = Central Europe).",
+        "data": {
+          "access_id": "Access ID",
+          "access_secret": "Access Secret",
+          "data_center": "Data center"
+        }
+      },
+      "hub": {
+        "title": "Choose the IR blaster",
+        "data": {
+          "hub_id": "IR blaster"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Tuya refused the credentials",
+        "description": "Enter the Access ID and Access Secret of the Tuya cloud project again.",
+        "data": {
+          "access_id": "Access ID",
+          "access_secret": "Access Secret"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Tuya refused the Access ID or Access Secret, or the data center is wrong.",
+      "cannot_connect": "Cannot reach the Tuya cloud.",
+      "trial_expired": "The free trial of the Tuya cloud project has expired. Extend it on platform.tuya.com (Cloud → Cloud Services → IoT Core).",
+      "no_hubs": "No linked device has IR remotes. Link your app account to the project and check that the IR Control Hub Open Service is authorized."
+    },
+    "abort": {
+      "already_configured": "This IR blaster is already configured.",
+      "reauth_successful": "The credentials were updated."
+    }
+  },
+  "issues": {
+    "trial_expired": {
+      "title": "Tuya cloud trial expired",
+      "description": "The free IoT Core trial of your Tuya cloud project has expired, so the IR remotes cannot send keys. On platform.tuya.com go to Cloud → Cloud Services → IoT Core → Extend Trial Period, then reload the Tuya IR Remotes integration."
+    }
+  }
+}
