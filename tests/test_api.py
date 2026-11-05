@@ -65,3 +65,10 @@ def test_expired_token_is_renewed_once():
     client = api.TuyaIRClient(s, "cid", "secret", "eu")
     assert asyncio.run(client.request("GET", "/x")) == [1]
     assert client._token == "t2"
+
+
+def test_ir_code_is_tuya_learning_code_format():
+    # Tuya's own example code starts c422 3011 2602 f401: 8900 µs pulse, 4400 space, 550, 500 (NEC header + bit)
+    assert api.ir_code([8900, -4400, 550, -500]) == "c42230112602f401"
+    assert api.ir_code([9000, -4500, 562]) == "282394113202"
+    assert api.ir_code([70000]) == "ffff"  # Tuya's format is 16-bit: longer gaps are capped

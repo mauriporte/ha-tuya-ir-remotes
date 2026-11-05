@@ -17,6 +17,8 @@ from .api import AuthError, IRKey, IRRemote, TrialExpired, TuyaError, TuyaIRClie
 
 DOMAIN = "tuya_ir_remotes"
 PLATFORMS = [Platform.BUTTON, Platform.REMOTE]
+if hasattr(Platform, "INFRARED"):  # Home Assistant 2026.x+: the blaster also becomes an IR emitter for any IR integration
+    PLATFORMS.append(Platform.INFRARED)
 CONF_ACCESS_ID = "access_id"
 CONF_ACCESS_SECRET = "access_secret"
 CONF_DATA_CENTER = "data_center"

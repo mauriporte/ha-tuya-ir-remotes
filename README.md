@@ -25,6 +25,11 @@ For each virtual remote on the IR blaster:
 
 Library remotes (picked by brand in the app) and DIY/learned remotes both work.
 
+- **One infrared emitter entity** for the blaster (Home Assistant 2026.x and later, which has the built-in
+  [Infrared](https://www.home-assistant.io/integrations/infrared) platform). Integrations that send IR codes through
+  an emitter, such as LG Infrared, Samsung Infrared or Gree Infrared, can then use this Tuya blaster too. The codes go
+  through Tuya's cloud learning-code call, so the blaster needs at least one virtual remote in the app.
+
 IR is one-way, so these entities cannot know whether the device is actually on.
 
 ## Setup: free Tuya developer project
@@ -43,3 +48,5 @@ The free *IoT Core* plan is a trial that must be extended from time to time: **C
 
 - This works through Tuya's cloud, so each key press needs internet and takes about a second.
 - The list of keys is read when the integration starts. After you add keys in the app, reload the integration.
+- The infrared emitter sends at the blaster's own carrier frequency (Tuya's call has no frequency field), and any single pulse
+  or gap longer than 65 ms is shortened to 65 ms (Tuya's code format is 16-bit).

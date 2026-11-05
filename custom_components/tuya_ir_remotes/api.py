@@ -57,6 +57,15 @@ class IRRemote:
     keys: list[IRKey] = field(default_factory=list)
 
 
+def ir_code(timings: list[int]) -> str:
+    """Raw IR timings (µs, + pulse / - space) as Tuya's learning-code string: each duration as 16-bit little-endian hex.
+
+    Tuya's own example (c422 3011 2602 ...) decodes to 8900, 4400, 550 µs: an NEC header and bits.
+    shortcut: durations above 65535 µs are capped (Tuya's 16-bit format); Tuya's call has no carrier field, so the blaster uses its own.
+    """
+    return "".join(min(abs(t), 0xFFFF).to_bytes(2, "little").hex() for t in timings)
+
+
 class TuyaIRClient:
     def __init__(self, session: aiohttp.ClientSession, access_id: str, secret: str, data_center: str) -> None:
         self._session = session
@@ -134,6 +143,10 @@ class TuyaIRClient:
             f"/v2.0/infrareds/{hub_id}/remotes/{remote.remote_id}/raw/command",
             {"category_id": remote.category_id, "key": key.key, "key_id": key.key_id},
         )
+
+    async def send_code(self, hub_id: str, remote_id: str, code: str) -> None:
+        """Send an arbitrary IR code (learning-code format) through the blaster; Tuya needs one of its remotes in the path."""
+        await self.request("POST", f"/v2.0/infrareds/{hub_id}/remotes/{remote_id}/learning-codes", {"code": code})
 
     async def find_hubs(self) -> list[tuple[str, str]]:
         """(device id, name) of every linked device that has IR remotes."""
